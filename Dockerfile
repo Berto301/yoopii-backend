@@ -4,6 +4,9 @@ FROM node:18.19.1
 # Set the working directory in the container
 WORKDIR /usr/src/app
 
+# Install CLI for nest
+RUN npm install -g @nestjs/cli
+
 # Copy package.json and package-lock.json to the container
 COPY package*.json ./
 
@@ -13,7 +16,7 @@ RUN npm install
 # Copy the rest of the application code to the container
 COPY . .
 
-# Build the Vue.js app
+# Build
 RUN npm run build
 
 # Expose the port the app runs on
