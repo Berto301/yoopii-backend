@@ -13,7 +13,7 @@ type Login = {
 export class AuthResolver {
   constructor(private authService: AuthService) {}
 
-  @Query(() => LoginResult)
+  @Mutation(() => LoginResult)
   async login(@Args('user') user: LoginUserInput): Promise<Login> {
     const result = await this.authService.validateUserByPassword(user);
 

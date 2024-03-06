@@ -16,9 +16,8 @@ export class ConfigService {
     try {
       file = fs.readFileSync(filePath);
     } catch (error) {
-      file = fs.readFileSync('development.env');
+      file = fs.readFileSync(`${process.env.NODE_ENV}.env`);
     }
-
     const config = dotenv.parse(file);
     this.envConfig = this.validateInput(config);
   }
@@ -26,15 +25,15 @@ export class ConfigService {
   private validateInput(envConfig: EnvConfig): EnvConfig {
     const envVarsSchema: Joi.ObjectSchema = Joi.object({
       MONGO_URI: Joi.string().required(),
-      MONGO_AUTH_ENABLED: Joi.boolean().default(false),
-      MONGO_USER: Joi.string().when('MONGO_AUTH_ENABLED', {
-        is: true,
-        then: Joi.required(),
-      }),
-      MONGO_PASSWORD: Joi.string().when('MONGO_AUTH_ENABLED', {
-        is: true,
-        then: Joi.required(),
-      }),
+      // MONGO_AUTH_ENABLED: Joi.boolean().default(false),
+      // MONGO_USER: Joi.string().when('MONGO_AUTH_ENABLED', {
+      //   is: true,
+      //   then: Joi.required(),
+      // }),
+      // MONGO_PASSWORD: Joi.string().when('MONGO_AUTH_ENABLED', {
+      //   is: true,
+      //   then: Joi.required(),
+      // }),
       JWT_SECRET: Joi.string().required(),
       JWT_EXPIRES_IN: Joi.number(),
     });
@@ -57,6 +56,7 @@ export class ConfigService {
   }
 
   get mongoUri(): string {
+    console.log({uri:this.envConfig.MONGO_URI})
     return this.envConfig.MONGO_URI;
   }
 
