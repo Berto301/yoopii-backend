@@ -7,6 +7,7 @@ async function bootstrap() {
   var whitelist = [process.env.URL_FRONT];
   const app = await NestFactory.create(AppModule);
   // await app.use(cors())
+  console.log({whitelist})
   await app.enableCors({
   //   origin: function (origin, callback) {
   //     if (whitelist.indexOf(origin) !== -1) {
