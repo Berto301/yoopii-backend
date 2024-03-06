@@ -13,8 +13,6 @@ RUN npm install
 # Copy the rest of the application code to the container
 COPY . .
 
-COPY .env /app/.env
-
 # Build the Vue.js app
 RUN npm run build
 
