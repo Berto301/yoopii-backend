@@ -27,7 +27,7 @@ import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
     // MongooseModule.forRoot(process.env.MONGO_URI),
     GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver,
-      autoSchemaFile: true
+      autoSchemaFile: true,
     }),
     AuthModule,
     UsersModule
