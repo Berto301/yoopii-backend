@@ -31,7 +31,8 @@ async function bootstrap() {
   credentials: true,
   // allowedHeaders: ['Authorization', 'Content-Type',],
   allowedHeaders: 'X-Requested-With, X-HTTP-Method-Override, Content-Type, Accept, Observe,Authorization,X-Custom-Information',
-  optionsSuccessStatus: 200
+  optionsSuccessStatus: 200,
+  preflightContinue: false
   });
   await app.listen(process.env.PORT);
 }
