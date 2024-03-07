@@ -19,7 +19,7 @@ async function bootstrap() {
   //       callback(new Error('Not allowed by CORS'))
   //     }
   // },
-  origin:whitelist,
+  origin:true,
   methods: "GET,PUT,POST,DELETE,UPDATE,OPTIONS",
   credentials: true,
   // allowedHeaders: ['Authorization', 'Content-Type',],
