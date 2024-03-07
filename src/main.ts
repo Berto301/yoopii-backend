@@ -23,7 +23,7 @@ async function bootstrap() {
   methods: "GET,PUT,POST,DELETE,UPDATE,OPTIONS",
   credentials: true,
   // allowedHeaders: ['Authorization', 'Content-Type',],
-  allowedHeaders: 'X-Requested-With, X-HTTP-Method-Override, Content-Type, Accept, Observe,Authorization',
+  allowedHeaders: 'X-Requested-With, X-HTTP-Method-Override, Content-Type, Accept, Observe,Authorization,X-Custom-Information',
   optionsSuccessStatus: 200
   });
   await app.listen(process.env.PORT);
