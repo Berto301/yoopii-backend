@@ -9,20 +9,22 @@ async function bootstrap() {
   // await app.use(cors())
   
   await app.enableCors({
-   origin: function (origin, callback) {
-      console.log({whitelist,origin,test:whitelist.indexOf(origin) !== -1})
-      if (whitelist.indexOf(origin) !== -1) {
-        console.log(whitelist)
-        callback(null, true)
-      } else {
-        console.log("blocked cors for:", origin)
-        callback(new Error('Not allowed by CORS'))
-      }
-  },
-  // origin:whitelist,
+  //  origin: function (origin, callback) {
+  //     console.log({whitelist,origin,test:whitelist.indexOf(origin) !== -1})
+  //     if (whitelist.indexOf(origin) !== -1) {
+  //       console.log(whitelist)
+  //       callback(null, true)
+  //     } else {
+  //       console.log("blocked cors for:", origin)
+  //       callback(new Error('Not allowed by CORS'))
+  //     }
+  // },
+  origin:whitelist,
   methods: "GET,PUT,POST,DELETE,UPDATE,OPTIONS",
   credentials: true,
-  allowedHeaders: ['Authorization', 'Content-Type',]
+  // allowedHeaders: ['Authorization', 'Content-Type',],
+  allowedHeaders: 'X-Requested-With, X-HTTP-Method-Override, Content-Type, Accept, Observe,Authorization',
+  optionsSuccessStatus: 200
   });
   await app.listen(process.env.PORT);
 }
