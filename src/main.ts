@@ -25,7 +25,7 @@ async function bootstrap() {
       console.log("inside",{whitelist})
       callback(null, true)
     } else {
-      callback(new Error('Not allowed by CORS'))
+      callback(new Error(`Not allowed by CORS: origin:${origin}`))
     }
   },
   methods: "GET,PUT,POST,DELETE,UPDATE,OPTIONS",
