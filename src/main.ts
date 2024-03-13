@@ -20,18 +20,20 @@ async function bootstrap() {
   //     }
   // },
   // origin:true,
-  origin: function (origin, callback) {
-    if (!origin || whitelist.indexOf(origin) !== -1) {
-      console.log("inside",{whitelist})
-      callback(null, true)
-    } else {
-      callback(new Error('Not allowed by CORS'))
-    }
-  },
+  // origin: function (origin, callback) {
+  //   if (!origin || whitelist.indexOf(origin) !== -1) {
+  //     console.log("inside",{whitelist})
+  //     callback(null, true)
+  //   } else {
+  //     callback(new Error('Not allowed by CORS'))
+  //   }
+  // },
+  origin:"*",
   methods: "GET,PUT,POST,DELETE,UPDATE,OPTIONS",
   credentials: true,
   // allowedHeaders: ['Authorization', 'Content-Type',],
-  allowedHeaders: 'X-Requested-With, X-HTTP-Method-Override, Content-Type, Accept, Observe,Authorization,X-Custom-Information',
+  //allowedHeaders: 'X-Requested-With, X-HTTP-Method-Override, Content-Type, Accept, Observe,Authorization,X-Custom-Information',
+  allowedHeaders:'Accept, Content-TypeOrigin, X-Requested-With, Content-Type, Accept',
   optionsSuccessStatus: 200,
   preflightContinue: false
   });
