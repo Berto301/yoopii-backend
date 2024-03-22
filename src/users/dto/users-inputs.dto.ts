@@ -12,6 +12,7 @@ import {
   PersonnalInfoInput,
 } from "../schema/input-sub-Object.schema";
 import { Prop } from "@nestjs/mongoose";
+import { IsEmail, IsString, Matches, MaxLength, MinLength} from "class-validator";
 @InputType()
 export class CreateUserInput {
   @Field(() => Boolean)
@@ -46,8 +47,15 @@ export class CreateUserInput {
 
 @InputType()
 export class LoginUserInput {
+  @IsEmail()
   @Field(() => String)
-  email?: string;
+  email: string;
+
+  @IsString()
+  @MinLength(6, { message: 'Password must be at least 6 characters long' })
+  @MaxLength(20, { message: 'Password cannot exceed 20 characters' })
+  @Matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])/,
+    { message: 'Password must contain at least one lowercase letter, one uppercase letter, one digit, and one special character' })
   @Field(() => String)
   password: string;
 }
