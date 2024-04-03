@@ -21,9 +21,59 @@ export class UsersModel extends Document {
   })
   enabled: boolean;
 
-  @Field(() => PersonnalInfo)
-  @Prop({ type: PersonnalInfo })
-  personnalInfo: PersonnalInfo;
+  // @Field(() => PersonnalInfo)
+  // @Prop({ type: PersonnalInfo })
+  // personnalInfo: PersonnalInfo;
+  @Prop({
+    type:String
+  })
+  @Field()
+  name: string;
+  @Prop({
+    type:String,
+    default:""
+  })
+  @Field()
+  firstname: string;
+  @Prop({
+    type:String,
+    default:""
+  })
+  @Field()
+  profesionnalName: string;
+  @Prop({
+    type:String,
+    default:""
+  })
+  @Field()
+  gender: string;
+  @Prop({
+    type:String,
+    default:""
+  })
+  @Field()
+  adress : string;
+  @Prop({
+    type:String,
+    default:""
+  })
+
+  // @Prop({
+  //   type:Date
+  // })
+  // @Field(()=> Date)
+  // dateOfBirth : Date  
+  @Prop({
+    type:Date
+  })
+  @Field(()=> Date)
+  dateOfBirth : Date  
+  @Prop({
+    type:Date
+  })
+  @Field(()=> Date)
+  birthOfDate : Date  
+  
 
   @Field(() => [String!]!)
   @Prop({
@@ -32,13 +82,48 @@ export class UsersModel extends Document {
   })
   permissions:string[]
 
-  @Field(()=> Licence)
-  @Prop({ type: Licence })
-  licence:Licence
-  
-  @Field(() => AccountSettings)
-  @Prop({ type: AccountSettings })
-  accountSettings:AccountSettings
+  // @Field(()=> Licence)
+  // @Prop({ type: Licence })
+  // licence:Licence
+  @Prop({
+    type:String,
+    default:""
+  })
+  @Field()
+  NIF_STAT: string;
+  @Prop({
+    type:String,
+    default:""
+  })
+  @Field()
+  deliveryPlace: string;
+  @Prop({
+    type:Date
+  })
+  @Field(()=> Date)
+  deliveryDate : Date  
+
+  // @Field(() => AccountSettings)
+  // @Prop({ type: AccountSettings })
+  // accountSettings:AccountSettings
+  @Field()
+  @Prop({
+    type:String,
+    default:"en"
+  })
+  language: string;
+  @Prop({
+    type:String,
+    default:""
+  })
+  @Field()
+  facebookSynchronisation: string;
+  @Prop({
+    type:String,
+    default:""
+  })
+  @Field()
+  googleSynchronisation : string  
 
   @Field(() => String)
     @Prop({

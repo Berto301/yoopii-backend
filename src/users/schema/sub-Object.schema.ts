@@ -46,7 +46,7 @@ export class Licence {
   deliveryPlace: string;
 
   @Field(()=> Date)
-  deleiveryDate : Date  
+  deliveryDate : Date  
 }
 
 @ObjectType()
