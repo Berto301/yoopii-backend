@@ -1,5 +1,6 @@
 import { InputType, Field, ObjectType, ArgsType } from "@nestjs/graphql";
 import { UsersModel } from "../schema/user.schema";
+import { Enterprise } from "../../enterprise/schema/enterprise.schema";
 // import {
 //   AccountSettings,
 //   Licence,
@@ -37,6 +38,9 @@ export class CreateUserInput {
   firstname: string;
   @IsString()
   @Field()
+  type: string;
+  @IsString()
+  @Field()
   profesionnalName: string;
   @IsString()
   @Field()
@@ -54,13 +58,13 @@ export class CreateUserInput {
 
   // @Field(() => AuthentificationInput)
   // authentification: AuthentificationInput;
-  @IsEmail()
-  @Field(() => String)
-  @Prop({
-      required: true,
-      unique: true,
-      validate: { validator: (data)=> /^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/.test(data) },
-  })
+  // @IsEmail()
+  // @Field(() => String)
+  // @Prop({
+  //     required: true,
+  //     unique: true,
+  //     validate: { validator: (data)=> /^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/.test(data) },
+  // })
   @IsEmail()
   @Field(() => String)
   @Prop({
@@ -112,6 +116,8 @@ export class CreateUserInput {
   googleSynchronisation : string  
 }
 
+
+
 @InputType()
 export class LoginUserInput {
   @IsEmail()
@@ -155,6 +161,17 @@ export class LoginResult {
 }
 
 @ObjectType()
+export class LoginResultEnterprise {
+  @Field(() => UsersModel)
+  user: UsersModel;
+  // @Field(() => Enterprise)
+  // enterprise:Enterprise;
+  @Field(() => String)
+  token: string;
+}
+
+
+@ObjectType()
 export class SignOutResult {
   @Field(() => UsersModel)
   user: UsersModel;
@@ -177,6 +194,8 @@ export class User {
 
   @Field()
   firstname: string;
+  @Field()
+  type: string;
 
   @Field()
   profesionnalName: string;

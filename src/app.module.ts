@@ -3,6 +3,7 @@ import { GraphQLModule } from '@nestjs/graphql';
 import { MongooseModule, MongooseModuleOptions } from '@nestjs/mongoose';
 import { AuthModule } from './auth/auth.module';
 import { UsersModule } from './users/users.module';
+import {EnterpriseModule} from './enterprise/enterprise.module'
 import { ConfigModule } from './config/config.module';
 // import { ConfigModule } from '@nestjs/config';
 import { ConfigService } from './config/config.service';
@@ -76,7 +77,8 @@ import { GraphQLError, GraphQLFormattedError } from 'graphql';
       },
     }),
     AuthModule,
-    UsersModule
+    UsersModule,
+    EnterpriseModule
   ],
   providers: [],
 })

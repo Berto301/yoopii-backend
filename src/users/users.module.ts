@@ -6,11 +6,13 @@ import { AuthModule } from '../auth/auth.module';
 import { UsersModel, UsersSchema } from './schema/user.schema';
 import { PassportModule } from '@nestjs/passport';
 import { ConfigModule } from '@nestjs/config';
+import { EnterpriseModule } from '../enterprise/enterprise.module';
 
 @Module({
   imports: [
     ConfigModule,
     forwardRef(() => AuthModule),
+    EnterpriseModule,
     MongooseModule.forFeature([{ name: UsersModel.name, schema: UsersSchema }]),
   ],
   providers: [UsersResolver, UsersService],

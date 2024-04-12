@@ -3,6 +3,8 @@ import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
 import {AccountSettings,Licence,PersonnalInfo} from "./sub-Object.schema"
 import * as bcrypt from 'bcryptjs';
+import * as mongoose from 'mongoose';
+import { Enterprise } from "src/enterprise/schema/enterprise.schema";
 
 export type UserDocument = UsersModel &
   Document & {
@@ -13,6 +15,10 @@ export type UserDocument = UsersModel &
 export class UsersModel extends Document {
   @Field()
   _id: string;
+
+  @Field(() => Enterprise)
+  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Enterprise', default:null })
+  enterprise: Enterprise;
   
   @Field(() => Boolean)
   @Prop({
@@ -29,6 +35,14 @@ export class UsersModel extends Document {
   })
   @Field()
   name: string;
+
+  @Prop({
+    type:String,
+    default:"user"
+  })
+
+  @Field()
+  type: string;
   @Prop({
     type:String,
     default:""
