@@ -86,6 +86,15 @@ export class UsersService {
     if (user) return user;
     return undefined;
   }
+  
+  async findById(id: string): Promise<UserDocument | undefined> {
+    const user = await this.userModel
+      .findOne({ _id: id })
+      .exec();
+    if (user) return user;
+    return undefined;
+  }
+  
   // ----------------------------------------------------------
   /**
    * Deletes all the users in the database, used for testing

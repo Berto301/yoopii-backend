@@ -17,7 +17,7 @@ export class UsersModel extends Document {
   _id: string;
 
   @Field(() => Enterprise)
-  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Enterprise', default:null })
+  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Enterprise', default:null})
   enterprise: Enterprise;
   
   @Field(() => Boolean)

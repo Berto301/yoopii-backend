@@ -17,11 +17,22 @@ export class EnterpriseService {
       ...createOrderDto,
       // owner: user._id,
     });
-    console.log(created);
     return created.save();
   }
 
   async findAll(): Promise<Enterprise[]> {
     return this.enterpriseModel.find().exec();
+  }
+
+  // async findByUser(id): Promise<Enterprise[]> {
+  //   return this.enterpriseModel.find({_id:id}).exec();
+  // }
+
+  async findByUser(id: string): Promise<Enterprise | undefined> {
+    const enterprise = await this.enterpriseModel
+      .findOne({ _id: id })
+      .exec();
+    if (enterprise) return enterprise;
+    return undefined;
   }
 }

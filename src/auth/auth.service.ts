@@ -43,6 +43,8 @@ export class AuthService {
     if (isMatch) {
       // If there is a successful match, generate a JWT for the user
       const token = this.createJwt(userToAttempt!).token;
+      // if(userToAttempt.enterprise===null) delete userToAttempt.enterprise 
+      
       const result: LoginResult = {
         user: userToAttempt!,
         token,

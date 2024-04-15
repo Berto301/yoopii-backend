@@ -248,4 +248,7 @@ export class User {
 
   @Field()
   password: string;
+  
+  // @Field(() => Enterprise, { nullable: true })
+  // enterprise: Enterprise | null;
 }

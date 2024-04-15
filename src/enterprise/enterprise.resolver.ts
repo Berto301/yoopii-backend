@@ -9,7 +9,7 @@ import { UsersModel } from 'src/users/schema/user.schema';
 
 @Resolver()
 export class EnterpriseResolver {
-  constructor(private readonly orderService: EnterpriseService) {}
+  constructor(private readonly enterpriseService: EnterpriseService) {}
 
   // @UseGuards(JwtAuthGuard)
   @Mutation(() => CreatedEnterpriseDto)
@@ -17,12 +17,20 @@ export class EnterpriseResolver {
     @Args('createEnterprise') createEnterprise: CreateEnterpiseDto
     // @CurrentUser() user: UsersModel,
   ) {
-    return this.orderService.create(createEnterprise);
+    return this.enterpriseService.create(createEnterprise);
   }
 
-  @UseGuards(JwtAuthGuard)
-  @Query(() => [Enterprise])
-  getAllOrders(): Promise<Enterprise[]> {
-    return this.orderService.findAll();
+  // @UseGuards(JwtAuthGuard)
+  // @Query(() => [Enterprise])
+  // getAllOrders(): Promise<Enterprise[]> {
+  //   return this.enterpriseService.findAll();
+  // }
+
+  @Query(() => Enterprise)
+  // @UseGuards(JwtAuthGuard)
+  async getEnterpriseByUser(
+    @Args('userId') userId: string
+  ): Promise<Enterprise> {
+    return this.enterpriseService.findByUser(userId);
   }
 }

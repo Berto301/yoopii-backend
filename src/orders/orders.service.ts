@@ -17,7 +17,7 @@ export class OrdersService {
       ...createOrderDto,
       owner: user._id,
     });
-    console.log(createdOrder);
+  
     return createdOrder.save();
   }
 

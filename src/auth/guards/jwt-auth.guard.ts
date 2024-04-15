@@ -13,6 +13,7 @@ export class JwtAuthGuard extends AuthGuard('jwt') {
 
   handleRequest(err: any, user: any, info: any) {
     if (err || !user) {
+      
       throw err || new AuthenticationError('Could not authenticate with token');
     }
     return user;
