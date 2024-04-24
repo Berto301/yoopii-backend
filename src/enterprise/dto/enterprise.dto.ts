@@ -1,6 +1,6 @@
 import { Field, InputType, ObjectType } from '@nestjs/graphql';
 import { Prop } from '@nestjs/mongoose';
-import { IsDate, IsEmail, IsNotEmpty, IsString } from 'class-validator';
+import { IsAlpha, IsDate, IsEmail, IsNotEmpty, IsString } from 'class-validator';
 
 @InputType()
 export class CreateEnterpiseDto {
@@ -54,3 +54,45 @@ export class CreatedEnterpriseDto {
   @Field()
   email: string;
 }
+
+@InputType()
+export class UpdateAgencyInput {
+  @IsString()
+  @Field()
+  _id: string;
+
+  @IsString()
+  @IsAlpha()
+  @IsNotEmpty({
+    always: true,
+    message: "Name is required"
+  })
+  @Field()
+  enterpiseName: string;
+
+  @IsString()
+  @Field()
+  enterpiseAdress: string;
+
+
+  @IsEmail()
+  @Field(() => String)
+  enterpiseEmail: string;
+
+  @IsString()
+  @Field()
+  enterpiseNIF_STAT: string;
+  @IsString()
+  @Field()
+  enterpisePhone:string
+
+  @IsString()
+  @Field()
+  enterpiseDeliveryPlace: string;
+
+  @IsDate()
+  @Field(() => Date)
+  enterpiseDeliveryDate: Date;
+
+}
+

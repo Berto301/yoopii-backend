@@ -3,7 +3,7 @@ import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 import { EnterpriseService } from './enterprise.service';
 import { Enterprise,EnterpriseDocument } from './schema/enterprise.schema';
 import { UseGuards } from '@nestjs/common';
-import { CreatedEnterpriseDto, CreateEnterpiseDto } from './dto/enterprise.dto';
+import { CreatedEnterpriseDto, CreateEnterpiseDto, UpdateAgencyInput } from './dto/enterprise.dto';
 import { CurrentUser } from 'src/decorators/get-user-id.decorator';
 import { UsersModel } from 'src/users/schema/user.schema';
 
@@ -39,5 +39,12 @@ export class EnterpriseResolver {
     @Args('id') id: string
   ): Promise<Enterprise> {
     return this.enterpriseService.findById(id);
+  }
+
+  @Mutation(()=>Enterprise) 
+  async updateAgency(
+    @Args('updateAgencyInput') updateAgencyInput: UpdateAgencyInput
+  ) : Promise<Enterprise> {
+    return this.enterpriseService.update(updateAgencyInput);
   }
 }

@@ -3,7 +3,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Enterprise, EnterpriseDocument } from './schema/enterprise.schema';
 import { Model } from 'mongoose';
-import { CreateEnterpiseDto } from './dto/enterprise.dto';
+import { CreateEnterpiseDto, UpdateAgencyInput } from './dto/enterprise.dto';
 // import { CurrentUser } from 'src/decorators/get-user-id.decorator';
 // import { UsersModel } from 'src/users/schema/user.schema';
 
@@ -43,4 +43,23 @@ export class EnterpriseService {
     if (enterprise) return enterprise;
     return undefined;
   }
+
+  async update(updateAgencyInput: UpdateAgencyInput): Promise<Enterprise | undefined> {
+    try {
+        const user = await this.enterpriseModel.findOneAndUpdate(
+            { _id: updateAgencyInput._id },
+            updateAgencyInput,
+            { new: true }
+        );
+
+        if (user?._id) {
+            return user;
+        } else {
+            throw new Error('User not found');
+        }
+    } catch (error) {
+        console.error('Error updating user:', error);
+        return undefined;
+    }
+}
 }
