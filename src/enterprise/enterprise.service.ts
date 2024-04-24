@@ -35,4 +35,12 @@ export class EnterpriseService {
     if (enterprise) return enterprise;
     return undefined;
   }
+
+  async findById(id: string): Promise<Enterprise | undefined> {
+    const enterprise = await this.enterpriseModel
+      .findOne({ _id: id })
+      .exec();
+    if (enterprise) return enterprise;
+    return undefined;
+  }
 }

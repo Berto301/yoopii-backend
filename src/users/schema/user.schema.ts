@@ -67,26 +67,17 @@ export class UsersModel extends Document {
   })
   @Field()
   adress : string;
-  @Prop({
-    type:String,
-    default:""
-  })
-
-  // @Prop({
-  //   type:Date
-  // })
-  // @Field(()=> Date)
-  // dateOfBirth : Date  
+  
   @Prop({
     type:Date
   })
   @Field(()=> Date)
   dateOfBirth : Date  
-  @Prop({
-    type:Date
-  })
-  @Field(()=> Date)
-  birthOfDate : Date  
+  // @Prop({
+  //   type:Date
+  // })
+  // @Field(()=> Date)
+  // birthOfDate : Date  
   
 
   @Field(() => [String!]!)
@@ -105,6 +96,20 @@ export class UsersModel extends Document {
   })
   @Field()
   NIF_STAT: string;
+  @Prop({
+    type:String,
+    default:""
+  })
+  @Field()
+  phone: string;
+
+  @Prop({
+    type:String,
+    default:""
+  })
+  @Field()
+  CIN: string;
+
   @Prop({
     type:String,
     default:""

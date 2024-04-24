@@ -2,11 +2,12 @@ import { Args, Mutation, Query, Resolver, Context } from '@nestjs/graphql';
 import { UsersService } from './users.service';
 import { UseGuards } from '@nestjs/common';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
-import { CreateUserInput, LoginResult, LoginResultEnterprise } from './dto/users-inputs.dto';
+import { CreateUserInput, LoginResult, LoginResultEnterprise, UpdateUsersInput, User } from './dto/users-inputs.dto';
 
 import { UserInputError } from 'apollo-server-core';
 import { UserDocument, UsersModel } from './schema/user.schema';
 import { CreateEnterpiseDto } from 'src/enterprise/dto/enterprise.dto';
+import { CurrentUser } from 'src/decorators/get-user-id.decorator';
 
 @Resolver(() => UsersModel)
 export class UsersResolver {
@@ -41,10 +42,31 @@ export class UsersResolver {
   }
 
   @Query(() => UsersModel)
-  // @UseGuards(JwtAuthGuard)
   async getUser(
     @Args('userId') userId: string
   ): Promise<UserDocument> {
     return this.usersService.findById(userId);
   }
+
+  @Query(() => UsersModel)
+  async getAuthInfo(
+    @Args('id') id: string
+  ): Promise<UserDocument> {
+    return this.usersService.findById(id);
+  }
+
+  @Mutation(()=>User) 
+  async updateUser(
+    @Args('updateUserInput') updateUserInput: UpdateUsersInput
+  ) : Promise<User> {
+    return this.usersService.update(updateUserInput);
+  }
+
+  // @Query(() => UsersModel)
+  // @UseGuards(JwtAuthGuard)
+  // async getUserInfo(
+  //   @CurrentUser() user: User,
+  // ): Promise<UserDocument> {
+  //   return this.usersService.authfindById(user);
+  // }
 }

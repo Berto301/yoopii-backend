@@ -8,7 +8,7 @@ import mongoose, { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
 import { UsersModel, UserDocument as UserDocument } from './schema/user.schema';
 import { AuthService } from '../auth/auth.service';
-import { CreateUserInput, LoginResult, LoginResultEnterprise } from './dto/users-inputs.dto';
+import { CreateUserInput, LoginResult, LoginResultEnterprise, UpdateUsersInput, User } from './dto/users-inputs.dto';
 import { ConfigService } from '@nestjs/config';
 import * as bcrypt from 'bcryptjs';
 import { CreateEnterpiseDto } from 'src/enterprise/dto/enterprise.dto';
@@ -86,12 +86,38 @@ export class UsersService {
     if (user) return user;
     return undefined;
   }
-  
+
+  async update(updateUserInput: UpdateUsersInput): Promise<User | undefined> {
+    try {
+        const user = await this.userModel.findOneAndUpdate(
+            { _id: updateUserInput._id },
+            updateUserInput,
+            { new: true }
+        );
+
+        if (user?._id) {
+            return user;
+        } else {
+            throw new Error('User not found');
+        }
+    } catch (error) {
+        console.error('Error updating user:', error);
+        return undefined;
+    }
+  }
   async findById(id: string): Promise<UserDocument | undefined> {
     const user = await this.userModel
       .findOne({ _id: id })
       .exec();
     if (user) return user;
+    return undefined;
+  }
+
+  async authfindById(user): Promise<UserDocument | undefined> {
+    const userModel = await this.userModel
+      .findOne({ _id: user._id })
+      .exec();
+    if (userModel) return userModel;
     return undefined;
   }
   

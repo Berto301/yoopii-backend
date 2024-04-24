@@ -1,7 +1,7 @@
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 import { EnterpriseService } from './enterprise.service';
-import { Enterprise } from './schema/enterprise.schema';
+import { Enterprise,EnterpriseDocument } from './schema/enterprise.schema';
 import { UseGuards } from '@nestjs/common';
 import { CreatedEnterpriseDto, CreateEnterpiseDto } from './dto/enterprise.dto';
 import { CurrentUser } from 'src/decorators/get-user-id.decorator';
@@ -32,5 +32,12 @@ export class EnterpriseResolver {
     @Args('userId') userId: string
   ): Promise<Enterprise> {
     return this.enterpriseService.findByUser(userId);
+  }
+
+  @Query(() => Enterprise)
+  async getEnterpriseInfo(
+    @Args('id') id: string
+  ): Promise<Enterprise> {
+    return this.enterpriseService.findById(id);
   }
 }

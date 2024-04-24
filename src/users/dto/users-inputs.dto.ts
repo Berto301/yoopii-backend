@@ -1,3 +1,4 @@
+
 import { InputType, Field, ObjectType, ArgsType } from "@nestjs/graphql";
 import { UsersModel } from "../schema/user.schema";
 import { Enterprise } from "../../enterprise/schema/enterprise.schema";
@@ -51,20 +52,7 @@ export class CreateUserInput {
   @IsDate()
   @Field(()=> Date)
   dateOfBirth : Date 
-  @IsDate()
-  @Field(()=> Date)
-  birthOfDate : Date 
-  
 
-  // @Field(() => AuthentificationInput)
-  // authentification: AuthentificationInput;
-  // @IsEmail()
-  // @Field(() => String)
-  // @Prop({
-  //     required: true,
-  //     unique: true,
-  //     validate: { validator: (data)=> /^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/.test(data) },
-  // })
   @IsEmail()
   @Field(() => String)
   @Prop({
@@ -99,6 +87,14 @@ export class CreateUserInput {
   @Field(()=> Date)
   deliveryDate : Date  
 
+  @IsString()
+  @Field()
+  phone: string;
+
+  @IsString()
+  @Field()
+  CIN: string;
+
   // @Field(() => AccountSettingsInput)
   // accountSettings: AccountSettingsInput;
   @IsString()
@@ -116,6 +112,85 @@ export class CreateUserInput {
   googleSynchronisation : string  
 }
 
+@InputType()
+export class UpdateUsersInput {
+  @IsString()
+  @Field()
+  _id: string;
+
+  @IsBoolean()
+  @Field(() => Boolean)
+  enabled: boolean;
+
+  @IsString()
+  @IsAlpha()
+  @IsNotEmpty({
+    always: true,
+    message: "Name is required"
+  })
+  @Field()
+  name: string;
+
+  @IsString()
+  @Field()
+  firstname: string;
+
+  @IsString()
+  @Field()
+  type: string;
+
+  @IsString()
+  @Field()
+  profesionnalName: string;
+
+  @IsString()
+  @Field()
+  gender: string;
+
+  @IsString()
+  @Field()
+  adress: string;
+
+  @IsDate()
+  @Field(() => Date)
+  dateOfBirth: Date;
+
+  @IsEmail()
+  @Field(() => String)
+  email: string;
+
+  @IsString()
+  @Field()
+  NIF_STAT: string;
+
+  @IsString()
+  @Field()
+  deliveryPlace: string;
+
+  @IsDate()
+  @Field(() => Date)
+  deliveryDate: Date;
+
+  @IsString()
+  @Field()
+  language: string;
+
+  @IsString()
+  @Field()
+  facebookSynchronisation: string;
+
+  @IsString()
+  @Field()
+  googleSynchronisation: string;
+
+  @IsString()
+  @Field()
+  phone: string;
+
+  @IsString()
+  @Field()
+  CIN: string;
+}
 
 
 @InputType()
@@ -204,12 +279,18 @@ export class User {
   gender: string;
 
   @Field()
+  phone: string;
+
+  @Field()
+  CIN: string;
+
+  @Field()
   adress : string;
 
   @Field(()=> Date)
   dateOfBirth : Date  
-  @Field(()=> Date)
-  birthOfDate : Date
+  // @Field(()=> Date)
+  // birthOfDate : Date
 
   // @Field(() => Authentification)
   // authentification: Authentification;
