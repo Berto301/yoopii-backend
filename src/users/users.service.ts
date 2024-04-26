@@ -8,7 +8,7 @@ import mongoose, { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
 import { UsersModel, UserDocument as UserDocument } from './schema/user.schema';
 import { AuthService } from '../auth/auth.service';
-import { CreateUserInput, LoginResult, LoginResultEnterprise, UpdateUsersInput, User } from './dto/users-inputs.dto';
+import { CreateUserInput, LoginResult, LoginResultEnterprise, UpdatePasswordInput, UpdateUsersInput, User } from './dto/users-inputs.dto';
 import { ConfigService } from '@nestjs/config';
 import * as bcrypt from 'bcryptjs';
 import { CreateEnterpiseDto } from 'src/enterprise/dto/enterprise.dto';
@@ -84,6 +84,30 @@ export class UsersService {
       .findOne({ email: email.toLowerCase() })
       .exec();
     if (user) return user;
+    return undefined;
+  }
+  async updatePassword(updatePasswordInput: UpdatePasswordInput): Promise<UserDocument | undefined>{
+    const user = await this.userModel
+      .findOne({ _id: updatePasswordInput._id })
+      .exec();
+   let userUpdated: UserDocument | undefined;
+    if (user._id){
+      if(!(updatePasswordInput.newPassword === updatePasswordInput.confirmPassword))  throw new BadRequestException("Passwords must be the same");
+      const isPasswordValid = bcrypt.compareSync(
+        updatePasswordInput.oldPassword,
+        user.password
+      );
+      
+      if(isPasswordValid){
+        const salt = await bcrypt.genSalt();
+        const passwordHash = await bcrypt.hash(updatePasswordInput.newPassword, salt);
+        user.password = passwordHash
+        userUpdated = await user.save()
+        return userUpdated
+      }{
+        throw new BadRequestException("Password invalid");
+      }
+    }
     return undefined;
   }
 

@@ -2,7 +2,7 @@ import { Args, Mutation, Query, Resolver, Context } from '@nestjs/graphql';
 import { UsersService } from './users.service';
 import { UseGuards } from '@nestjs/common';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
-import { CreateUserInput, LoginResult, LoginResultEnterprise, UpdateUsersInput, User } from './dto/users-inputs.dto';
+import { CreateUserInput, LoginResult, LoginResultEnterprise, UpdatePasswordInput, UpdateUsersInput, User } from './dto/users-inputs.dto';
 
 import { UserInputError } from 'apollo-server-core';
 import { UserDocument, UsersModel } from './schema/user.schema';
@@ -61,7 +61,13 @@ export class UsersResolver {
   ) : Promise<User> {
     return this.usersService.update(updateUserInput);
   }
-
+ 
+  @Mutation(()=>User) 
+  async updatePassword(
+    @Args('updatePasswordInput') updatePasswordInput: UpdatePasswordInput
+  ) : Promise<User> {
+    return this.usersService.updatePassword(updatePasswordInput);
+  }
   // @Query(() => UsersModel)
   // @UseGuards(JwtAuthGuard)
   // async getUserInfo(

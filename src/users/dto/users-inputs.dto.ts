@@ -211,9 +211,28 @@ export class LoginUserInput {
 @InputType()
 export class UpdatePasswordInput {
   @Field(() => String)
+  _id: string;
+  @IsString()
+  @MinLength(6, { message: 'Password must be at least 6 characters long' })
+  @MaxLength(20, { message: 'Password cannot exceed 20 characters' })
+  @Matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])/,
+    { message: 'Password must contain at least one lowercase letter, one uppercase letter, one digit, and one special character' })
+  @Field(() => String)
   oldPassword: string;
+  @IsString()
+  @MinLength(6, { message: 'Password must be at least 6 characters long' })
+  @MaxLength(20, { message: 'Password cannot exceed 20 characters' })
+  @Matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])/,
+    { message: 'Password must contain at least one lowercase letter, one uppercase letter, one digit, and one special character' })
   @Field(() => String)
   newPassword: string;
+  @IsString()
+  @MinLength(6, { message: 'Password must be at least 6 characters long' })
+  @MaxLength(20, { message: 'Password cannot exceed 20 characters' })
+  @Matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])/,
+    { message: 'Password must contain at least one lowercase letter, one uppercase letter, one digit, and one special character' })
+  @Field(() => String)
+  confirmPassword: string;
 }
 
 @InputType()
