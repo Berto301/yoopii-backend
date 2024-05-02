@@ -9,6 +9,7 @@ import { ConfigModule } from './config/config.module';
 import { ConfigService } from './config/config.service';
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { GraphQLError, GraphQLFormattedError } from 'graphql';
+import { ConfigurationsModule } from './configuration/configuration.module';
 
 
 @Module({
@@ -78,7 +79,8 @@ import { GraphQLError, GraphQLFormattedError } from 'graphql';
     }),
     AuthModule,
     UsersModule,
-    EnterpriseModule
+    EnterpriseModule,
+    ConfigurationsModule
   ],
   providers: [],
 })

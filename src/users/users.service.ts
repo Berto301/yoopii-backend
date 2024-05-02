@@ -14,6 +14,7 @@ import * as bcrypt from 'bcryptjs';
 import { CreateEnterpiseDto } from 'src/enterprise/dto/enterprise.dto';
 import { Enterprise, EnterpriseDocument } from 'src/enterprise/schema/enterprise.schema';
 import { EnterpriseService } from 'src/enterprise/enterprise.service';
+import { ConfigurationService } from 'src/configuration/configuration.service';
 
 @Injectable()
 export class UsersService {
@@ -21,6 +22,7 @@ export class UsersService {
     private readonly config: ConfigService,
     @InjectModel(UsersModel.name) private userModel: Model<UserDocument>,
     private readonly enterpriseService: EnterpriseService,
+    private readonly configurationService: ConfigurationService,
     @Inject(forwardRef(() => AuthService))
     private authService: AuthService,
   ) {}
@@ -43,11 +45,28 @@ export class UsersService {
       const passwordHash = await bcrypt.hash(createdUser.password, salt);
       createdUser.password = passwordHash
       createdUser.enterprise = null
+      await this.createConfigBase(createdUser)
       user = await createdUser.save();
+      //creation configuration
     } catch (error) {
       throw new BadRequestException(error);
     }
     return { user, token: token.token };
+  }
+
+   async createConfigBase(user){
+    if(user._id){
+       const created = await this.configurationService.create({
+        "userId":user._id,
+        "format" : "DD/MM/YYYY",
+        "timezone" : "UTC",
+        "taux" : 0,
+        "devise" : "MGA",
+       })
+       return created
+    }else{
+      throw new BadRequestException('User not found');
+    }
   }
 
   async createUserAndEnterprise(createUserInput: CreateUserInput,createEnterpiseInput:CreateEnterpiseDto): Promise<LoginResultEnterprise> {
@@ -62,7 +81,8 @@ export class UsersService {
         const salt = await bcrypt.genSalt();
         const passwordHash = await bcrypt.hash(createdUser.password, salt);
         createdUser.password = passwordHash
-        createdUser.enterprise =  createdEnterprise
+        createdUser.enterprise =  createdEnterprise 
+        await this.createConfigBase(createdUser)
         user = await createdUser.save();
       } catch (error) {
         throw new BadRequestException(error);
