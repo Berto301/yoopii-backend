@@ -2,7 +2,7 @@ import { Args, Mutation, Query, Resolver, Context } from '@nestjs/graphql';
 import { UsersService } from './users.service';
 import { UseGuards } from '@nestjs/common';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
-import { CreateUserInput, LoginResult, LoginResultEnterprise, UpdatePasswordInput, UpdateUsersInput, User } from './dto/users-inputs.dto';
+import { CreateAgentInput, CreateUserInput, LoginResult, LoginResultEnterprise, UpdatePasswordInput, UpdateUsersInput, User } from './dto/users-inputs.dto';
 
 import { UserInputError } from 'apollo-server-core';
 import { UserDocument, UsersModel } from './schema/user.schema';
@@ -27,13 +27,32 @@ export class UsersResolver {
     return createdUser;
   }
 
+  @Mutation(() => User)
+  async createAgent(
+    @Args('createAgent') createAgentInput: CreateAgentInput,
+  ): Promise<User> {
+    let createdUser: User | undefined;
+    try {
+     
+      createdUser = await this.usersService.createAgent(createAgentInput);
+    } catch (error) {
+      throw new UserInputError(error.message);
+    }
+    return createdUser;
+  }
+
+  @Query(() => [UsersModel])
+  async getAgents(
+    @Args('id') id: string
+  ): Promise<UsersModel[]> {
+    return this.usersService.getAgents(id);
+  }
   @Mutation(() => LoginResultEnterprise)
   async createUserAndEnterprise(
     @Args('createUserInput') createUserInput: CreateUserInput, @Args('createEnterpiseInput') createEnterpiseInput:CreateEnterpiseDto
   ): Promise<LoginResult> {
     let createdUser: LoginResult | undefined;
     try {
-     
       createdUser = await this.usersService.createUserAndEnterprise(createUserInput,createEnterpiseInput);
     } catch (error) {
       throw new UserInputError(error.message);
@@ -53,6 +72,13 @@ export class UsersResolver {
     @Args('id') id: string
   ): Promise<UserDocument> {
     return this.usersService.findById(id);
+  }
+
+  @Mutation(() => User)
+  async delete(
+    @Args('id') id: string
+  ): Promise<User> {
+    return this.usersService.delete(id);
   }
 
   @Mutation(()=>User) 

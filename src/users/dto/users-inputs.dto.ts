@@ -34,6 +34,8 @@ export class CreateUserInput {
   })
   @Field()
   name: string;
+  @Field()
+  role: string;
   @IsString()
   @Field()
   firstname: string;
@@ -94,6 +96,148 @@ export class CreateUserInput {
   @IsString()
   @Field()
   CIN: string;
+
+  @IsString()
+  @Field()
+  linkedin: string;
+  @IsString()
+  @Field()
+  facebook: string;
+  @IsString()
+  @Field()
+  whatsapp: string;
+  @IsString()
+  @Field()
+  portfolio: string;
+  @IsString()
+  @Field()
+  siteweb: string;
+  @IsString()
+  @Field()
+  note: string;
+
+  // @Field(() => AccountSettingsInput)
+  // accountSettings: AccountSettingsInput;
+  @IsString()
+  @Field()
+  @Prop({
+    type:String,
+    default:"en"
+  })
+  language: string;
+  @IsString()
+  @Field()
+  facebookSynchronisation: string;
+  @IsString()
+  @Field()
+  googleSynchronisation : string  
+}
+
+@InputType()
+export class CreateAgentInput {
+  @IsBoolean()
+  @Field(() => Boolean)
+  enabled: boolean;
+  // @Field(() => PersonnalInfoInput)
+  // @Type(() => PersonnalInfoInput)
+  // @ValidateNested()
+  // personnalInfo: PersonnalInfoInput;
+
+  @Field()
+  enterprise:string
+  @IsString()
+  @IsAlpha()
+  @IsNotEmpty({
+    always:true,
+    message:"Name is required"
+  })
+  @Field()
+  name: string;
+  @IsNotEmpty({
+    always:true,
+    message:"Role is required"
+  })
+  @Field()
+  role: string;
+  @IsString()
+  @Field()
+  firstname: string;
+  @IsString()
+  @Field()
+  type: string;
+  @IsString()
+  @Field()
+  profesionnalName: string;
+  @IsString()
+  @Field()
+  gender: string;
+  @IsString()
+  @Field()
+  adress : string;
+  @IsDate()
+  @Field(()=> Date)
+  dateOfBirth : Date 
+
+  @IsEmail()
+  @Field(() => String)
+  @Prop({
+      required: true,
+      unique: true,
+      validate: { validator: (data)=> /^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/.test(data) },
+  })
+  email: string;
+  
+  @IsString()
+  @MinLength(6, { message: 'Password must be at least 6 characters long' })
+  @MaxLength(20, { message: 'Password cannot exceed 20 characters' })
+  @Matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])/,
+    { message: 'Password must contain at least one lowercase letter, one uppercase letter, one digit, and one special character' })
+  @Field(() => String)
+  @Prop({ required: true })
+  password: string;
+  
+  @IsArray()
+  @Field(() => [String])
+  permissions: string[];
+
+  // @Field(() => LicenceInput)
+  // licence: LicenceInput;
+  @IsString()
+  @Field()
+  NIF_STAT: string;
+  @IsString()
+  @Field()
+  deliveryPlace: string;
+  @IsDate()
+  @Field(()=> Date)
+  deliveryDate : Date  
+
+  @IsString()
+  @Field()
+  phone: string;
+
+  @IsString()
+  @Field()
+  CIN: string;
+
+  @IsString()
+  @Field()
+  linkedin: string;
+  @IsString()
+  @Field()
+  facebook: string;
+  @IsString()
+  @Field()
+  whatsapp: string;
+  @IsString()
+  @Field()
+  portfolio: string;
+  @IsString()
+  @Field()
+  siteweb: string;
+  @IsString()
+  @Field()
+  note: string;
 
   // @Field(() => AccountSettingsInput)
   // accountSettings: AccountSettingsInput;
@@ -179,6 +323,11 @@ export class UpdateUsersInput {
   @Field()
   facebookSynchronisation: string;
 
+  @IsArray()
+  @Field(() => [String])
+  permissions: string[];
+
+
   @IsString()
   @Field()
   googleSynchronisation: string;
@@ -190,6 +339,27 @@ export class UpdateUsersInput {
   @IsString()
   @Field()
   CIN: string;
+
+  @IsString()
+  @Field()
+  linkedin: string;
+  @IsString()
+  @Field()
+  facebook: string;
+  @IsString()
+  @Field()
+  whatsapp: string;
+  @IsString()
+  @Field()
+  portfolio: string;
+  @IsString()
+  @Field()
+  siteweb: string;
+  @IsString()
+  @Field()
+  note: string;
+  @Field()
+  role: string;
 }
 
 
@@ -304,6 +474,19 @@ export class User {
   CIN: string;
 
   @Field()
+  linkedin: string;
+  @Field()
+  facebook: string;
+  @Field()
+  whatsapp: string;
+  @Field()
+  portfolio: string;
+  @Field()
+  siteweb: string;
+  @Field()
+  note: string;
+
+  @Field()
   adress : string;
 
   @Field(()=> Date)
@@ -348,6 +531,8 @@ export class User {
 
   @Field()
   password: string;
+  @Field()
+  role: string;
   
   // @Field(() => Enterprise, { nullable: true })
   // enterprise: Enterprise | null;

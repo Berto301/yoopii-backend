@@ -79,7 +79,12 @@ export class UsersModel extends Document {
   // @Field(()=> Date)
   // birthOfDate : Date  
   
-
+  @Prop({
+    type:String,
+    default:"Super Admin"
+  })
+  @Field()
+  role : string;
   @Field(() => [String!]!)
   @Prop({
     type: [String!]!,
@@ -109,6 +114,42 @@ export class UsersModel extends Document {
   })
   @Field()
   CIN: string;
+  @Prop({
+    type:String,
+    default:""
+  })
+  @Field()
+  linkedin: string;
+  @Prop({
+    type:String,
+    default:""
+  })
+  @Field()
+  facebook: string;
+  @Prop({
+    type:String,
+    default:""
+  })
+  @Field()
+  whatsapp: string;
+  @Prop({
+    type:String,
+    default:""
+  })
+  @Field()
+  portfolio: string;
+  @Prop({
+    type:String,
+    default:""
+  })
+  @Field()
+  siteweb: string;
+  @Prop({
+    type:String,
+    default:""
+  })
+  @Field()
+  note: string;
 
   @Prop({
     type:String,

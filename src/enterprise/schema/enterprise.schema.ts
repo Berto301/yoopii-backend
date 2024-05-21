@@ -58,6 +58,26 @@ export class Enterprise extends Document {
   @Field(()=> Date)
   enterpiseDeliveryDate : Date  
 
+  @Prop({
+    type:String
+  })
+  @Field()
+  linkedin: string;
+  @Prop({
+    type:String
+  })
+  @Field()
+  facebook: string;
+  @Prop({
+    type:String
+  })
+  @Field()
+  whatsapp: string;
+
+  @Prop({ type: [String] })
+  @Field(() => [String])
+  services: string[];
+
   @Field(() => Date)
   @Prop()
   timestamp: Date;

@@ -32,7 +32,6 @@ export class ConfigurationResolver {
   async getConfigById(
     @Args('id') id: string
   ){
-    console.log({id})
     return this.configService.findById(id);
   }
 

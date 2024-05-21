@@ -46,8 +46,11 @@ export class ConfigurationService {
 
   async findById(id:string) : Promise<Configuration | undefined> {
     const _config = await this.configurationModel.findOne({ userId: id }).exec();
-    console.log({_config})
     if (_config) return _config;
       return undefined
+    }
+  async deleteByUser(id:string) : Promise<undefined> {
+     await this.configurationModel.deleteOne({ userId: id });
+     return undefined
     }
 }

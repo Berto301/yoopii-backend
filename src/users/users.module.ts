@@ -9,6 +9,7 @@ import { ConfigModule } from '@nestjs/config';
 import { EnterpriseModule } from '../enterprise/enterprise.module';
 import { ConfigurationsModule } from 'src/configuration/configuration.module';
 import { ConfigurationService } from 'src/configuration/configuration.service';
+import {UsersGateway} from './users.gateway'
 
 @Module({
   imports: [
@@ -16,9 +17,9 @@ import { ConfigurationService } from 'src/configuration/configuration.service';
     forwardRef(() => AuthModule),
     EnterpriseModule,
     ConfigurationsModule,
-    MongooseModule.forFeature([{ name: UsersModel.name, schema: UsersSchema }]),
+    MongooseModule.forFeature([{ name: UsersModel.name, schema: UsersSchema }])
   ],
-  providers: [UsersResolver, UsersService],
+  providers: [UsersResolver, UsersService,UsersGateway],
   exports: [UsersService],
 })
 export class UsersModule {}

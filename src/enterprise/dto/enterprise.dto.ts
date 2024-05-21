@@ -42,6 +42,19 @@ export class CreateEnterpiseDto {
   @Field()
   enterpisePhone: string;
 
+  @IsString()
+  @Field()
+  linkedin: string;
+  @IsString()
+  @Field()
+  facebook: string;
+  @IsString()
+  @Field()
+  whatsapp: string;
+
+  @Field(() => [String])
+  services: string[];
+
 }
 
 @ObjectType()
@@ -93,6 +106,19 @@ export class UpdateAgencyInput {
   @IsDate()
   @Field(() => Date)
   enterpiseDeliveryDate: Date;
+
+  @IsString()
+  @Field()
+  linkedin: string;
+  @IsString()
+  @Field()
+  facebook: string;
+  @IsString()
+  @Field()
+  whatsapp: string;
+
+  @Field(() => [String])
+  services: string[];
 
 }
 

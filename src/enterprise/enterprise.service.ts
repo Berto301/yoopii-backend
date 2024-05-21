@@ -4,6 +4,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Enterprise, EnterpriseDocument } from './schema/enterprise.schema';
 import { Model } from 'mongoose';
 import { CreateEnterpiseDto, UpdateAgencyInput } from './dto/enterprise.dto';
+import { UsersModel } from 'src/users/schema/user.schema';
 // import { CurrentUser } from 'src/decorators/get-user-id.decorator';
 // import { UsersModel } from 'src/users/schema/user.schema';
 
@@ -43,6 +44,8 @@ export class EnterpriseService {
     if (enterprise) return enterprise;
     return undefined;
   }
+
+ 
 
   async update(updateAgencyInput: UpdateAgencyInput): Promise<Enterprise | undefined> {
     try {

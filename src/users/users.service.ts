@@ -8,13 +8,16 @@ import mongoose, { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
 import { UsersModel, UserDocument as UserDocument } from './schema/user.schema';
 import { AuthService } from '../auth/auth.service';
-import { CreateUserInput, LoginResult, LoginResultEnterprise, UpdatePasswordInput, UpdateUsersInput, User } from './dto/users-inputs.dto';
+import { CreateAgentInput, CreateUserInput, LoginResult, LoginResultEnterprise, UpdatePasswordInput, UpdateUsersInput, User } from './dto/users-inputs.dto';
 import { ConfigService } from '@nestjs/config';
 import * as bcrypt from 'bcryptjs';
 import { CreateEnterpiseDto } from 'src/enterprise/dto/enterprise.dto';
 import { Enterprise, EnterpriseDocument } from 'src/enterprise/schema/enterprise.schema';
 import { EnterpriseService } from 'src/enterprise/enterprise.service';
 import { ConfigurationService } from 'src/configuration/configuration.service';
+import {deleteManyby, deleteOneBy, findOneAndRemove} from './utils'
+import { Configuration } from 'src/configuration/schema/configuration.schema';
+import {UsersGateway} from './users.gateway'
 
 @Injectable()
 export class UsersService {
@@ -25,6 +28,7 @@ export class UsersService {
     private readonly configurationService: ConfigurationService,
     @Inject(forwardRef(() => AuthService))
     private authService: AuthService,
+    private readonly usersGateway: UsersGateway,
   ) {}
 
   /**
@@ -52,6 +56,35 @@ export class UsersService {
       throw new BadRequestException(error);
     }
     return { user, token: token.token };
+  }
+
+  async createAgent(createAgentInput: CreateAgentInput): Promise<User> {
+    const createdUser = new this.userModel(createAgentInput);
+    // console.log({createdUser, createUserInput})
+    const token = await this.authService.createJwt(createdUser);
+    let user: UserDocument | undefined;
+    try {
+      let _currentEnterprise = await this.enterpriseService.findById(createAgentInput.enterprise)
+      if(_currentEnterprise._id) createdUser.enterprise =_currentEnterprise
+      const salt = await bcrypt.genSalt();
+      const passwordHash = await bcrypt.hash(createdUser.password, salt);
+      createdUser.password = passwordHash
+      await this.createConfigBase(createdUser)
+      user = await createdUser.save();
+      this.usersGateway.server.emit('createAgent',user)
+      //creation configuration
+    } catch (error) {
+      throw new BadRequestException(error);
+    }
+    return user._id;
+  }
+
+  async getAgents(id: string): Promise<UsersModel[] | []> {
+    const agents = await this.userModel
+      .find({ enterprise: id })
+      .exec();
+      this.usersGateway.server.emit('createAgent',agents)
+     return agents || [];
   }
 
    async createConfigBase(user){
@@ -149,6 +182,22 @@ export class UsersService {
         return undefined;
     }
   }
+  async delete(id: string): Promise<User | undefined> {
+    try {
+          const user = await this.userModel.findOne(
+            { _id: id}
+        );
+        // Delete the user
+        await this.userModel.findOneAndDelete({ _id: id });
+        await this.configurationService.deleteByUser(id)
+       
+
+        return user;
+    } catch (error) {
+        console.error('Error deleting user:', error);
+        return undefined;
+    }
+}
   async findById(id: string): Promise<UserDocument | undefined> {
     const user = await this.userModel
       .findOne({ _id: id })

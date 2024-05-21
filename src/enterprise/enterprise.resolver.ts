@@ -41,6 +41,8 @@ export class EnterpriseResolver {
     return this.enterpriseService.findById(id);
   }
 
+ 
+
   @Mutation(()=>Enterprise) 
   async updateAgency(
     @Args('updateAgencyInput') updateAgencyInput: UpdateAgencyInput
